@@ -8,17 +8,17 @@ import (
 
 type IBaseLogicHandler interface {
 	Paginate(request *models.IRequest) (*models.PaginateResult, error)
-} 
+}
 
 type BaseLogicHandler struct {
 	IBaseLogicHandler
 
-	DataHandler dl.IBaseData
+	DbHandler dl.IBaseDbHandler
 }
 
-func (base *BaseLogicHandler) Paginate(request *models.IRequest) (*models.PaginateResult, error)  {
-	if base.DataHandler != nil {
-		return base.DataHandler.Paginate(request), nil
+func (base *BaseLogicHandler) Paginate(request *models.IRequest) (*models.PaginateResult, error) {
+	if base.DbHandler != nil {
+		return base.DbHandler.Paginate(request)
 	}
 	return nil, errors.New("data handler is not initialized")
 }
