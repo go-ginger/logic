@@ -7,11 +7,11 @@ import (
 )
 
 type IBaseLogicHandler interface {
-	Create(request models.IRequest) (*models.IBaseModel, error)
-	Paginate(request models.IRequest) (*models.PaginateResult, error)
-	Get(request models.IRequest) (*models.IBaseModel, error)
-	Update(request models.IRequest) error
-	Delete(request models.IRequest) error
+	Create(request *models.Request) (*models.IBaseModel, error)
+	Paginate(request *models.Request) (*models.PaginateResult, error)
+	Get(request *models.Request) (*models.IBaseModel, error)
+	Update(request *models.Request) error
+	Delete(request *models.Request) error
 }
 
 type BaseLogicHandler struct {
@@ -21,13 +21,13 @@ type BaseLogicHandler struct {
 }
 
 func (base *BaseLogicHandler) handleRequestFunction(
-	function func(request models.IRequest),	request models.IRequest) {
+	function func(request *models.Request), request *models.Request) {
 	if function != nil {
 		function(request)
 	}
 }
 
-func (base *BaseLogicHandler) Create(request models.IRequest) (*models.IBaseModel, error) {
+func (base *BaseLogicHandler) Create(request *models.Request) (*models.IBaseModel, error) {
 	if base.DataHandler != nil {
 		base.DataHandler.BeforeInsert(request)
 		result, err := base.DataHandler.Insert(request)
@@ -37,7 +37,7 @@ func (base *BaseLogicHandler) Create(request models.IRequest) (*models.IBaseMode
 	return nil, errors.New("data handler is not initialized")
 }
 
-func (base *BaseLogicHandler) Paginate(request models.IRequest) (*models.PaginateResult, error) {
+func (base *BaseLogicHandler) Paginate(request *models.Request) (*models.PaginateResult, error) {
 	if base.DataHandler != nil {
 		base.handleRequestFunction(base.DataHandler.BeforeQuery, request)
 		result, err := base.DataHandler.Paginate(request)
@@ -47,7 +47,7 @@ func (base *BaseLogicHandler) Paginate(request models.IRequest) (*models.Paginat
 	return nil, errors.New("data handler is not initialized")
 }
 
-func (base *BaseLogicHandler) Get(request models.IRequest) (*models.IBaseModel, error) {
+func (base *BaseLogicHandler) Get(request *models.Request) (*models.IBaseModel, error) {
 	if base.DataHandler != nil {
 		base.handleRequestFunction(base.DataHandler.BeforeQuery, request)
 		result, err := base.DataHandler.Get(request)
@@ -57,7 +57,7 @@ func (base *BaseLogicHandler) Get(request models.IRequest) (*models.IBaseModel, 
 	return nil, errors.New("data handler is not initialized")
 }
 
-func (base *BaseLogicHandler) Update(request models.IRequest) error {
+func (base *BaseLogicHandler) Update(request *models.Request) error {
 	if base.DataHandler != nil {
 		base.handleRequestFunction(base.DataHandler.BeforeUpdate, request)
 		err := base.DataHandler.Update(request)
@@ -67,7 +67,7 @@ func (base *BaseLogicHandler) Update(request models.IRequest) error {
 	return errors.New("data handler is not initialized")
 }
 
-func (base *BaseLogicHandler) Delete(request models.IRequest) error {
+func (base *BaseLogicHandler) Delete(request *models.Request) error {
 	if base.DataHandler != nil {
 		base.handleRequestFunction(base.DataHandler.BeforeDelete, request)
 		err := base.DataHandler.Delete(request)
