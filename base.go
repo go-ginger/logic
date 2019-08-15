@@ -12,12 +12,16 @@ type IBaseLogicHandler interface {
 	Get(request *models.Request) (*models.IBaseModel, error)
 	Update(request *models.Request) error
 	Delete(request *models.Request) error
+	Init(dataHandler dl.IBaseDbHandler)
 }
 
 type BaseLogicHandler struct {
 	IBaseLogicHandler
 
 	DataHandler dl.IBaseDbHandler
+}
+func (base *BaseLogicHandler) Init(dataHandler dl.IBaseDbHandler) {
+	base.DataHandler = dataHandler
 }
 
 func (base *BaseLogicHandler) handleRequestFunction(
