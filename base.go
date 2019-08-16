@@ -7,9 +7,9 @@ import (
 )
 
 type IBaseLogicHandler interface {
-	Create(request *models.Request) (*models.IBaseModel, error)
+	Create(request *models.Request) (interface{}, error)
 	Paginate(request *models.Request) (*models.PaginateResult, error)
-	Get(request *models.Request) (*models.IBaseModel, error)
+	Get(request *models.Request) (interface{}, error)
 	Update(request *models.Request) error
 	Delete(request *models.Request) error
 	Init(dataHandler dl.IBaseDbHandler)
@@ -31,7 +31,7 @@ func (base *BaseLogicHandler) handleRequestFunction(
 	}
 }
 
-func (base *BaseLogicHandler) Create(request *models.Request) (*models.IBaseModel, error) {
+func (base *BaseLogicHandler) Create(request *models.Request) (interface{}, error) {
 	if base.DataHandler != nil {
 		base.DataHandler.BeforeInsert(request)
 		result, err := base.DataHandler.Insert(request)
@@ -51,7 +51,7 @@ func (base *BaseLogicHandler) Paginate(request *models.Request) (*models.Paginat
 	return nil, errors.New("data handler is not initialized")
 }
 
-func (base *BaseLogicHandler) Get(request *models.Request) (*models.IBaseModel, error) {
+func (base *BaseLogicHandler) Get(request *models.Request) (interface{}, error) {
 	if base.DataHandler != nil {
 		base.handleRequestFunction(base.DataHandler.BeforeQuery, request)
 		result, err := base.DataHandler.Get(request)
