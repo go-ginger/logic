@@ -1,24 +1,44 @@
 package logic
 
 import (
-	"errors"
 	"github.com/kulichak/dl"
 	"github.com/kulichak/models"
 )
 
 type IBaseLogicHandler interface {
+	Init(dataHandler dl.IBaseDbHandler)
+	Model(request *models.Request)
+	Models(request *models.Request)
+
+	DoCreate(request *models.Request) (interface{}, error)
+	DoPaginate(request *models.Request) (*models.PaginateResult, error)
+	DoGet(request *models.Request) (interface{}, error)
+	DoUpdate(request *models.Request) error
+	DoDelete(request *models.Request) error
+
+	BeforeCreate(request *models.Request)
 	Create(request *models.Request) (interface{}, error)
+	AfterCreate(request *models.Request)
+
+	BeforeQuery(request *models.Request)
 	Paginate(request *models.Request) (*models.PaginateResult, error)
 	Get(request *models.Request) (interface{}, error)
+	AfterQuery(request *models.Request)
+
+	BeforeUpdate(request *models.Request)
 	Update(request *models.Request) error
+	AfterUpdate(request *models.Request)
+
+	BeforeDelete(request *models.Request)
 	Delete(request *models.Request) error
-	Init(dataHandler dl.IBaseDbHandler)
+	AfterDelete(request *models.Request)
 }
 
 type BaseLogicHandler struct {
 	IBaseLogicHandler
 
-	DataHandler dl.IBaseDbHandler
+	LogicHandler IBaseLogicHandler
+	DataHandler  dl.IBaseDbHandler
 }
 
 func (base *BaseLogicHandler) Init(dataHandler dl.IBaseDbHandler) {
@@ -32,52 +52,8 @@ func (base *BaseLogicHandler) handleRequestFunction(
 	}
 }
 
-func (base *BaseLogicHandler) Create(request *models.Request) (interface{}, error) {
-	if base.DataHandler != nil {
-		base.DataHandler.BeforeInsert(request)
-		result, err := base.DataHandler.Insert(request)
-		base.DataHandler.AfterInsert(request)
-		return result, err
-	}
-	return nil, errors.New("data handler is not initialized")
+func (base *BaseLogicHandler) Model(request *models.Request) {
 }
 
-func (base *BaseLogicHandler) Paginate(request *models.Request) (*models.PaginateResult, error) {
-	if base.DataHandler != nil {
-		base.handleRequestFunction(base.DataHandler.BeforeQuery, request)
-		result, err := base.DataHandler.Paginate(request)
-		base.handleRequestFunction(base.DataHandler.AfterQuery, request)
-		return result, err
-	}
-	return nil, errors.New("data handler is not initialized")
-}
-
-func (base *BaseLogicHandler) Get(request *models.Request) (interface{}, error) {
-	if base.DataHandler != nil {
-		base.handleRequestFunction(base.DataHandler.BeforeQuery, request)
-		result, err := base.DataHandler.Get(request)
-		base.handleRequestFunction(base.DataHandler.AfterQuery, request)
-		return result, err
-	}
-	return nil, errors.New("data handler is not initialized")
-}
-
-func (base *BaseLogicHandler) Update(request *models.Request) error {
-	if base.DataHandler != nil {
-		base.handleRequestFunction(base.DataHandler.BeforeUpdate, request)
-		err := base.DataHandler.Update(request)
-		base.handleRequestFunction(base.DataHandler.AfterUpdate, request)
-		return err
-	}
-	return errors.New("data handler is not initialized")
-}
-
-func (base *BaseLogicHandler) Delete(request *models.Request) error {
-	if base.DataHandler != nil {
-		base.handleRequestFunction(base.DataHandler.BeforeDelete, request)
-		err := base.DataHandler.Delete(request)
-		base.handleRequestFunction(base.DataHandler.AfterDelete, request)
-		return err
-	}
-	return errors.New("data handler is not initialized")
+func (base *BaseLogicHandler) Models(request *models.Request) {
 }
