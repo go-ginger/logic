@@ -8,6 +8,9 @@ import (
 func (base *BaseLogicHandler) DoUpdate(request *models.Request) error {
 	base.handleRequestFunction(base.BeforeUpdate, request)
 	err := base.Update(request)
+	if err != nil {
+		return err
+	}
 	base.handleRequestFunction(base.AfterUpdate, request)
 	return err
 }
@@ -19,6 +22,9 @@ func (base *BaseLogicHandler) Update(request *models.Request) error {
 	if base.DataHandler != nil {
 		base.handleRequestFunction(base.DataHandler.BeforeUpdate, request)
 		err := base.DataHandler.Update(request)
+		if err != nil {
+			return err
+		}
 		base.handleRequestFunction(base.DataHandler.AfterUpdate, request)
 		return err
 	}

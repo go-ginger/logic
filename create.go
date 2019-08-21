@@ -9,6 +9,9 @@ func (base *BaseLogicHandler) DoCreate(request *models.Request) (interface{}, er
 	base.handleRequestFunction(base.LogicHandler.Model, request)
 	base.handleRequestFunction(base.BeforeCreate, request)
 	result, err := base.Create(request)
+	if err != nil {
+		return nil, err
+	}
 	base.handleRequestFunction(base.AfterCreate, request)
 	return result, err
 }
@@ -20,6 +23,9 @@ func (base *BaseLogicHandler) Create(request *models.Request) (interface{}, erro
 	if base.DataHandler != nil {
 		base.DataHandler.BeforeInsert(request)
 		result, err := base.DataHandler.Insert(request)
+		if err != nil {
+			return nil, err
+		}
 		base.DataHandler.AfterInsert(request)
 		return result, err
 	}

@@ -8,6 +8,9 @@ import (
 func (base *BaseLogicHandler) DoDelete(request *models.Request) error {
 	base.handleRequestFunction(base.BeforeDelete, request)
 	err := base.Delete(request)
+	if err != nil {
+		return err
+	}
 	base.handleRequestFunction(base.AfterDelete, request)
 	return err
 }
@@ -19,6 +22,9 @@ func (base *BaseLogicHandler) Delete(request *models.Request) error {
 	if base.DataHandler != nil {
 		base.handleRequestFunction(base.DataHandler.BeforeDelete, request)
 		err := base.DataHandler.Delete(request)
+		if err != nil {
+			return err
+		}
 		base.handleRequestFunction(base.DataHandler.AfterDelete, request)
 		return err
 	}

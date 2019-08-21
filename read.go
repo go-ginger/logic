@@ -9,6 +9,9 @@ func (base *BaseLogicHandler) DoPaginate(request *models.Request) (*models.Pagin
 	base.handleRequestFunction(base.LogicHandler.Models, request)
 	base.handleRequestFunction(base.LogicHandler.BeforeQuery, request)
 	result, err := base.LogicHandler.Paginate(request)
+	if err != nil {
+		return nil, err
+	}
 	base.handleRequestFunction(base.LogicHandler.AfterQuery, request)
 	return result, err
 }
@@ -17,6 +20,9 @@ func (base *BaseLogicHandler) DoGet(request *models.Request) (interface{}, error
 	base.handleRequestFunction(base.LogicHandler.Model, request)
 	base.handleRequestFunction(base.LogicHandler.BeforeQuery, request)
 	result, err := base.LogicHandler.Get(request)
+	if err != nil {
+		return nil, err
+	}
 	base.handleRequestFunction(base.LogicHandler.AfterQuery, request)
 	return result, err
 }
@@ -28,6 +34,9 @@ func (base *BaseLogicHandler) Paginate(request *models.Request) (*models.Paginat
 	if base.DataHandler != nil {
 		base.handleRequestFunction(base.DataHandler.BeforeQuery, request)
 		result, err := base.DataHandler.Paginate(request)
+		if err != nil {
+			return nil, err
+		}
 		base.handleRequestFunction(base.DataHandler.AfterQuery, request)
 		return result, err
 	}
@@ -38,6 +47,9 @@ func (base *BaseLogicHandler) Get(request *models.Request) (interface{}, error) 
 	if base.DataHandler != nil {
 		base.handleRequestFunction(base.DataHandler.BeforeQuery, request)
 		result, err := base.DataHandler.Get(request)
+		if err != nil {
+			return nil, err
+		}
 		base.handleRequestFunction(base.DataHandler.AfterQuery, request)
 		return result, err
 	}
