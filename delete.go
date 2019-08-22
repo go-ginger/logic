@@ -6,12 +6,12 @@ import (
 )
 
 func (base *BaseLogicHandler) DoDelete(request *models.Request) error {
-	base.handleRequestFunction(base.BeforeDelete, request)
-	err := base.Delete(request)
+	base.handleRequestFunction(base.LogicHandler.BeforeDelete, request)
+	err := base.LogicHandler.Delete(request)
 	if err != nil {
 		return err
 	}
-	base.handleRequestFunction(base.AfterDelete, request)
+	base.handleRequestFunction(base.LogicHandler.AfterDelete, request)
 	return err
 }
 

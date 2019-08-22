@@ -7,12 +7,12 @@ import (
 
 func (base *BaseLogicHandler) DoCreate(request *models.Request) (interface{}, error) {
 	base.handleRequestFunction(base.LogicHandler.Model, request)
-	base.handleRequestFunction(base.BeforeCreate, request)
-	result, err := base.Create(request)
+	base.handleRequestFunction(base.LogicHandler.BeforeCreate, request)
+	result, err := base.LogicHandler.Create(request)
 	if err != nil {
 		return nil, err
 	}
-	base.handleRequestFunction(base.AfterCreate, request)
+	base.handleRequestFunction(base.LogicHandler.AfterCreate, request)
 	return result, err
 }
 

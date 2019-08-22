@@ -7,11 +7,11 @@ import (
 
 func (base *BaseLogicHandler) DoUpdate(request *models.Request) error {
 	base.handleRequestFunction(base.BeforeUpdate, request)
-	err := base.Update(request)
+	err := base.LogicHandler.Update(request)
 	if err != nil {
 		return err
 	}
-	base.handleRequestFunction(base.AfterUpdate, request)
+	base.handleRequestFunction(base.LogicHandler.AfterUpdate, request)
 	return err
 }
 
