@@ -32,6 +32,7 @@ func (base *BaseLogicHandler) BeforeQuery(request models.IRequest) {
 
 func (base *BaseLogicHandler) Paginate(request models.IRequest) (*models.PaginateResult, error) {
 	if base.DataHandler != nil {
+		base.LogicHandler.Models(request)
 		base.handleRequestFunction(base.DataHandler.BeforeQuery, request)
 		result, err := base.DataHandler.Paginate(request)
 		if err != nil {
@@ -45,6 +46,7 @@ func (base *BaseLogicHandler) Paginate(request models.IRequest) (*models.Paginat
 
 func (base *BaseLogicHandler) Get(request models.IRequest) (interface{}, error) {
 	if base.DataHandler != nil {
+		base.LogicHandler.Model(request)
 		base.handleRequestFunction(base.DataHandler.BeforeQuery, request)
 		result, err := base.DataHandler.Get(request)
 		if err != nil {
