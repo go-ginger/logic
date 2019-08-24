@@ -20,6 +20,7 @@ func (base *BaseLogicHandler) BeforeUpdate(request *models.Request) {
 
 func (base *BaseLogicHandler) Update(request *models.Request) error {
 	if base.DataHandler != nil {
+		base.LogicHandler.Model(request)
 		base.handleRequestFunction(base.DataHandler.BeforeUpdate, request)
 		err := base.DataHandler.Update(request)
 		if err != nil {
