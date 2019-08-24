@@ -5,7 +5,7 @@ import (
 	"github.com/kulichak/models"
 )
 
-func (base *BaseLogicHandler) DoDelete(request *models.Request) error {
+func (base *BaseLogicHandler) DoDelete(request models.IRequest) error {
 	base.handleRequestFunction(base.LogicHandler.BeforeDelete, request)
 	err := base.LogicHandler.Delete(request)
 	if err != nil {
@@ -15,10 +15,10 @@ func (base *BaseLogicHandler) DoDelete(request *models.Request) error {
 	return err
 }
 
-func (base *BaseLogicHandler) BeforeDelete(request *models.Request) {
+func (base *BaseLogicHandler) BeforeDelete(request models.IRequest) {
 }
 
-func (base *BaseLogicHandler) Delete(request *models.Request) error {
+func (base *BaseLogicHandler) Delete(request models.IRequest) error {
 	if base.DataHandler != nil {
 		base.handleRequestFunction(base.DataHandler.BeforeDelete, request)
 		err := base.DataHandler.Delete(request)
@@ -31,5 +31,5 @@ func (base *BaseLogicHandler) Delete(request *models.Request) error {
 	return errors.New("data handler is not initialized")
 }
 
-func (base *BaseLogicHandler) AfterDelete(request *models.Request) {
+func (base *BaseLogicHandler) AfterDelete(request models.IRequest) {
 }

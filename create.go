@@ -5,7 +5,7 @@ import (
 	"github.com/kulichak/models"
 )
 
-func (base *BaseLogicHandler) DoCreate(request *models.Request) (interface{}, error) {
+func (base *BaseLogicHandler) DoCreate(request models.IRequest) (interface{}, error) {
 	base.handleRequestFunction(base.LogicHandler.Model, request)
 	base.handleRequestFunction(base.LogicHandler.BeforeCreate, request)
 	result, err := base.LogicHandler.Create(request)
@@ -16,10 +16,10 @@ func (base *BaseLogicHandler) DoCreate(request *models.Request) (interface{}, er
 	return result, err
 }
 
-func (base *BaseLogicHandler) BeforeCreate(request *models.Request) {
+func (base *BaseLogicHandler) BeforeCreate(request models.IRequest) {
 }
 
-func (base *BaseLogicHandler) Create(request *models.Request) (interface{}, error) {
+func (base *BaseLogicHandler) Create(request models.IRequest) (interface{}, error) {
 	if base.DataHandler != nil {
 		base.DataHandler.BeforeInsert(request)
 		result, err := base.DataHandler.Insert(request)
@@ -32,5 +32,5 @@ func (base *BaseLogicHandler) Create(request *models.Request) (interface{}, erro
 	return nil, errors.New("data handler is not initialized")
 }
 
-func (base *BaseLogicHandler) AfterCreate(request *models.Request) {
+func (base *BaseLogicHandler) AfterCreate(request models.IRequest) {
 }
