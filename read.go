@@ -45,6 +45,15 @@ func (base *BaseLogicHandler) Paginate(request models.IRequest) (*models.Paginat
 }
 
 func (base *BaseLogicHandler) Get(request models.IRequest) (interface{}, error) {
+	req := request.GetBaseRequest()
+	if req.ID != nil {
+		// handle id
+		if req.Filters == nil {
+			req.Filters = &models.Filters{}
+		}
+		(*req.Filters)["id"] = req.ID
+	}
+
 	if base.DataHandler != nil {
 		base.LogicHandler.Model(request)
 		base.handleRequestFunction(base.DataHandler.BeforeQuery, request)
