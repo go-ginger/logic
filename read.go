@@ -5,46 +5,47 @@ import (
 	"github.com/kulichak/models"
 )
 
-func (base *BaseLogicHandler) DoPaginate(request models.IRequest) (*models.PaginateResult, error) {
+func (base *BaseLogicHandler) DoPaginate(request models.IRequest) (result *models.PaginateResult, err error) {
 	base.handleRequestFunction(base.LogicHandler.Models, request)
 	base.handleRequestFunction(base.LogicHandler.BeforeQuery, request)
-	result, err := base.LogicHandler.Paginate(request)
+	result, err = base.LogicHandler.Paginate(request)
 	if err != nil {
-		return nil, err
+		return
 	}
 	base.handleRequestFunction(base.LogicHandler.AfterQuery, request)
-	return result, err
+	return
 }
 
-func (base *BaseLogicHandler) DoGet(request models.IRequest) (interface{}, error) {
+func (base *BaseLogicHandler) DoGet(request models.IRequest) (result interface{}, err error) {
 	base.handleRequestFunction(base.LogicHandler.Model, request)
 	base.handleRequestFunction(base.LogicHandler.BeforeQuery, request)
-	result, err := base.LogicHandler.Get(request)
+	result, err = base.LogicHandler.Get(request)
 	if err != nil {
-		return nil, err
+		return
 	}
 	base.handleRequestFunction(base.LogicHandler.AfterQuery, request)
-	return result, err
+	return
 }
 
 func (base *BaseLogicHandler) BeforeQuery(request models.IRequest) {
 }
 
-func (base *BaseLogicHandler) Paginate(request models.IRequest) (*models.PaginateResult, error) {
+func (base *BaseLogicHandler) Paginate(request models.IRequest) (result *models.PaginateResult, err error) {
 	if base.DataHandler != nil {
 		base.LogicHandler.Models(request)
 		base.handleRequestFunction(base.DataHandler.BeforeQuery, request)
-		result, err := base.DataHandler.Paginate(request)
+		result, err = base.DataHandler.Paginate(request)
 		if err != nil {
-			return nil, err
+			return
 		}
 		base.handleRequestFunction(base.DataHandler.AfterQuery, request)
-		return result, err
+		return
 	}
-	return nil, errors.New("data handler is not initialized")
+	err = errors.New("data handler is not initialized")
+	return
 }
 
-func (base *BaseLogicHandler) Get(request models.IRequest) (interface{}, error) {
+func (base *BaseLogicHandler) Get(request models.IRequest) (result interface{}, err error) {
 	req := request.GetBaseRequest()
 	if req.ID != nil {
 		// handle id
@@ -57,14 +58,15 @@ func (base *BaseLogicHandler) Get(request models.IRequest) (interface{}, error) 
 	if base.DataHandler != nil {
 		base.LogicHandler.Model(request)
 		base.handleRequestFunction(base.DataHandler.BeforeQuery, request)
-		result, err := base.DataHandler.Get(request)
+		result, err = base.DataHandler.Get(request)
 		if err != nil {
-			return nil, err
+			return
 		}
 		base.handleRequestFunction(base.DataHandler.AfterQuery, request)
-		return result, err
+		return
 	}
-	return nil, errors.New("data handler is not initialized")
+	err = errors.New("data handler is not initialized")
+	return
 }
 
 func (base *BaseLogicHandler) AfterQuery(request models.IRequest) {

@@ -10,27 +10,27 @@ type IBaseLogicHandler interface {
 	Model(request models.IRequest)
 	Models(request models.IRequest)
 
-	DoCreate(request models.IRequest) (interface{}, error)
-	DoPaginate(request models.IRequest) (*models.PaginateResult, error)
-	DoGet(request models.IRequest) (interface{}, error)
-	DoUpdate(request models.IRequest) error
-	DoDelete(request models.IRequest) error
+	DoCreate(request models.IRequest) (result interface{}, err error)
+	DoPaginate(request models.IRequest) (result *models.PaginateResult, err error)
+	DoGet(request models.IRequest) (result interface{}, err error)
+	DoUpdate(request models.IRequest) (err error)
+	DoDelete(request models.IRequest) (err error)
 
 	BeforeCreate(request models.IRequest)
-	Create(request models.IRequest) (interface{}, error)
+	Create(request models.IRequest) (result interface{}, err error)
 	AfterCreate(request models.IRequest)
 
 	BeforeQuery(request models.IRequest)
-	Paginate(request models.IRequest) (*models.PaginateResult, error)
-	Get(request models.IRequest) (interface{}, error)
+	Paginate(request models.IRequest) (result *models.PaginateResult, err error)
+	Get(request models.IRequest) (result interface{}, err error)
 	AfterQuery(request models.IRequest)
 
 	BeforeUpdate(request models.IRequest)
-	Update(request models.IRequest) error
+	Update(request models.IRequest) (err error)
 	AfterUpdate(request models.IRequest)
 
 	BeforeDelete(request models.IRequest)
-	Delete(request models.IRequest) error
+	Delete(request models.IRequest) (err error)
 	AfterDelete(request models.IRequest)
 }
 
