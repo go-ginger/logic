@@ -1,8 +1,8 @@
 package logic
 
 import (
-	"github.com/kulichak/dl"
-	"github.com/kulichak/models"
+	"github.com/go-ginger/dl"
+	"github.com/go-ginger/models"
 )
 
 type IBaseLogicHandler interface {

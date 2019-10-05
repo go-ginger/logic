@@ -2,7 +2,7 @@ package logic
 
 import (
 	"errors"
-	"github.com/kulichak/models"
+	"github.com/go-ginger/models"
 )
 
 func (base *BaseLogicHandler) DoCreate(request models.IRequest) (result interface{}, err error) {

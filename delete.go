@@ -2,7 +2,7 @@ package logic
 
 import (
 	"errors"
-	"github.com/kulichak/models"
+	"github.com/go-ginger/models"
 )
 
 func (base *BaseLogicHandler) DoDelete(request models.IRequest) (err error) {

@@ -2,7 +2,7 @@ package logic
 
 import (
 	"errors"
-	"github.com/kulichak/models"
+	"github.com/go-ginger/models"
 )
 
 func (base *BaseLogicHandler) DoPaginate(request models.IRequest) (result *models.PaginateResult, err error) {
