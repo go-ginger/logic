@@ -6,6 +6,7 @@ import (
 )
 
 func (base *BaseLogicHandler) DoPaginate(request models.IRequest) (result *models.PaginateResult, err error) {
+	base.handleRequestFunction(base.LogicHandler.Model, request)
 	base.handleRequestFunction(base.LogicHandler.Models, request)
 	base.handleRequestFunction(base.LogicHandler.BeforeQuery, request)
 	result, err = base.LogicHandler.Paginate(request)
