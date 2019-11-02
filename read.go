@@ -6,8 +6,6 @@ import (
 )
 
 func (base *BaseLogicHandler) DoPaginate(request models.IRequest) (result *models.PaginateResult, err error) {
-	base.handleRequestFunction(base.LogicHandler.Model, request)
-	base.handleRequestFunction(base.LogicHandler.Models, request)
 	base.handleRequestFunction(base.LogicHandler.BeforeQuery, request)
 	result, err = base.LogicHandler.Paginate(request)
 	if err != nil {
@@ -18,7 +16,6 @@ func (base *BaseLogicHandler) DoPaginate(request models.IRequest) (result *model
 }
 
 func (base *BaseLogicHandler) DoGet(request models.IRequest) (result interface{}, err error) {
-	base.handleRequestFunction(base.LogicHandler.Model, request)
 	base.handleRequestFunction(base.LogicHandler.BeforeQuery, request)
 	result, err = base.LogicHandler.Get(request)
 	if err != nil {
@@ -33,13 +30,12 @@ func (base *BaseLogicHandler) BeforeQuery(request models.IRequest) {
 
 func (base *BaseLogicHandler) Paginate(request models.IRequest) (result *models.PaginateResult, err error) {
 	if base.DataHandler != nil {
-		base.LogicHandler.Models(request)
 		base.handleRequestFunction(base.DataHandler.BeforeQuery, request)
 		result, err = base.DataHandler.Paginate(request)
 		if err != nil {
 			return
 		}
-		base.handleRequestFunction(base.DataHandler.AfterQuery, request)
+		base.handleRequestParamFunction(base.DataHandler.AfterQuery, request, result)
 		return
 	}
 	err = errors.New("data handler is not initialized")
@@ -57,13 +53,12 @@ func (base *BaseLogicHandler) Get(request models.IRequest) (result interface{}, 
 	}
 
 	if base.DataHandler != nil {
-		base.LogicHandler.Model(request)
 		base.handleRequestFunction(base.DataHandler.BeforeQuery, request)
 		result, err = base.DataHandler.Get(request)
 		if err != nil {
 			return
 		}
-		base.handleRequestFunction(base.DataHandler.AfterQuery, request)
+		base.handleRequestParamFunction(base.DataHandler.AfterQuery, request, result)
 		return
 	}
 	err = errors.New("data handler is not initialized")

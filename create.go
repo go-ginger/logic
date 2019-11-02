@@ -6,7 +6,6 @@ import (
 )
 
 func (base *BaseLogicHandler) DoCreate(request models.IRequest) (result interface{}, err error) {
-	base.handleRequestFunction(base.LogicHandler.Model, request)
 	base.handleRequestFunction(base.LogicHandler.BeforeCreate, request)
 	result, err = base.LogicHandler.Create(request)
 	if err != nil {

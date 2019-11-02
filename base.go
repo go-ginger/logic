@@ -7,8 +7,6 @@ import (
 
 type IBaseLogicHandler interface {
 	Init(logicHandler IBaseLogicHandler, dataHandler dl.IBaseDbHandler)
-	Model(request models.IRequest)
-	Models(request models.IRequest)
 
 	DoCreate(request models.IRequest) (result interface{}, err error)
 	DoPaginate(request models.IRequest) (result *models.PaginateResult, err error)
@@ -53,8 +51,9 @@ func (base *BaseLogicHandler) handleRequestFunction(
 	}
 }
 
-func (base *BaseLogicHandler) Model(request models.IRequest) {
-}
-
-func (base *BaseLogicHandler) Models(request models.IRequest) {
+func (base *BaseLogicHandler) handleRequestParamFunction(
+	function func(request models.IRequest, param interface{}), request models.IRequest, param interface{}) {
+	if function != nil {
+		function(request, param)
+	}
 }
