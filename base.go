@@ -27,6 +27,10 @@ type IBaseLogicHandler interface {
 	Update(request models.IRequest) (err error)
 	AfterUpdate(request models.IRequest)
 
+	BeforeUpsert(request models.IRequest)
+	Upsert(request models.IRequest) (err error)
+	AfterUpsert(request models.IRequest)
+
 	BeforeDelete(request models.IRequest)
 	Delete(request models.IRequest) (err error)
 	AfterDelete(request models.IRequest)
