@@ -12,6 +12,7 @@ type IBaseLogicHandler interface {
 	DoPaginate(request models.IRequest) (result *models.PaginateResult, err error)
 	DoGet(request models.IRequest) (result interface{}, err error)
 	DoUpdate(request models.IRequest) (err error)
+	DoUpsert(request models.IRequest) (err error)
 	DoDelete(request models.IRequest) (err error)
 
 	BeforeCreate(request models.IRequest) (err error)
