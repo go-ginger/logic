@@ -27,18 +27,7 @@ func (base *BaseLogicHandler) BeforeDelete(request models.IRequest) (err error) 
 
 func (base *BaseLogicHandler) Delete(request models.IRequest) (err error) {
 	if base.DataHandler != nil {
-		err = base.handleRequestFunction(base.DataHandler.BeforeDelete, request)
-		if err != nil {
-			return
-		}
-		err = base.DataHandler.Delete(request)
-		if err != nil {
-			return
-		}
-		err = base.handleRequestFunction(base.DataHandler.AfterDelete, request)
-		if err != nil {
-			return
-		}
+		err = base.DataHandler.DoDelete(request)
 		return
 	}
 	return errors.New("data handler is not initialized")

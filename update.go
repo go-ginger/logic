@@ -27,18 +27,7 @@ func (base *BaseLogicHandler) BeforeUpdate(request models.IRequest) (err error) 
 
 func (base *BaseLogicHandler) Update(request models.IRequest) (err error) {
 	if base.DataHandler != nil {
-		err = base.handleRequestFunction(base.DataHandler.BeforeUpdate, request)
-		if err != nil {
-			return
-		}
-		err = base.DataHandler.Update(request)
-		if err != nil {
-			return
-		}
-		err = base.handleRequestFunction(base.DataHandler.AfterUpdate, request)
-		if err != nil {
-			return
-		}
+		err = base.DataHandler.DoUpdate(request)
 		return
 	}
 	return errors.New("data handler is not initialized")

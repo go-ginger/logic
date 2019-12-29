@@ -27,18 +27,7 @@ func (base *BaseLogicHandler) BeforeUpsert(request models.IRequest) (err error) 
 
 func (base *BaseLogicHandler) Upsert(request models.IRequest) (err error) {
 	if base.DataHandler != nil {
-		err = base.handleRequestFunction(base.DataHandler.BeforeUpsert, request)
-		if err != nil {
-			return
-		}
-		err = base.DataHandler.Upsert(request)
-		if err != nil {
-			return
-		}
-		err = base.handleRequestFunction(base.DataHandler.AfterUpsert, request)
-		if err != nil {
-			return
-		}
+		err = base.DataHandler.DoUpsert(request)
 		return
 	}
 	return errors.New("data handler is not initialized")

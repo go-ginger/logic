@@ -27,19 +27,8 @@ func (base *BaseLogicHandler) BeforeCreate(request models.IRequest) (err error) 
 
 func (base *BaseLogicHandler) Create(request models.IRequest) (result interface{}, err error) {
 	if base.DataHandler != nil {
-		err = base.DataHandler.BeforeInsert(request)
-		if err != nil {
-			return
-		}
-		result, err = base.DataHandler.Insert(request)
-		if err != nil {
-			return nil, err
-		}
-		err = base.DataHandler.AfterInsert(request)
-		if err != nil {
-			return
-		}
-		return result, err
+		result, err = base.DataHandler.DoInsert(request)
+		return
 	}
 	err = errors.New("data handler is not initialized")
 	return
