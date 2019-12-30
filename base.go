@@ -22,7 +22,7 @@ type IBaseLogicHandler interface {
 	BeforeQuery(request models.IRequest) (err error)
 	Paginate(request models.IRequest) (result *models.PaginateResult, err error)
 	Get(request models.IRequest) (result interface{}, err error)
-	AfterQuery(request models.IRequest) (err error)
+	AfterQuery(request models.IRequest, result interface{}) (err error)
 
 	BeforeUpdate(request models.IRequest) (err error)
 	Update(request models.IRequest) (err error)

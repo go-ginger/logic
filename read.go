@@ -14,7 +14,7 @@ func (base *BaseLogicHandler) DoPaginate(request models.IRequest) (result *model
 	if err != nil {
 		return
 	}
-	err = base.handleRequestFunction(base.IBaseLogicHandler.AfterQuery, request)
+	err = base.handleRequestParamFunction(base.IBaseLogicHandler.AfterQuery, request, result)
 	if err != nil {
 		return
 	}
@@ -30,7 +30,7 @@ func (base *BaseLogicHandler) DoGet(request models.IRequest) (result interface{}
 	if err != nil {
 		return
 	}
-	err = base.handleRequestFunction(base.IBaseLogicHandler.AfterQuery, request)
+	err = base.handleRequestParamFunction(base.IBaseLogicHandler.AfterQuery, request, result)
 	if err != nil {
 		return
 	}
@@ -68,6 +68,6 @@ func (base *BaseLogicHandler) Get(request models.IRequest) (result interface{}, 
 	return
 }
 
-func (base *BaseLogicHandler) AfterQuery(request models.IRequest) (err error) {
+func (base *BaseLogicHandler) AfterQuery(request models.IRequest, result interface{}) (err error) {
 	return
 }
