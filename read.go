@@ -3,7 +3,6 @@ package logic
 import (
 	"errors"
 	"github.com/go-ginger/models"
-	"reflect"
 )
 
 func (base *BaseLogicHandler) DoPaginate(request models.IRequest) (result *models.PaginateResult, err error) {
@@ -71,25 +70,7 @@ func (base *BaseLogicHandler) Get(request models.IRequest) (result interface{}, 
 
 func (base *BaseLogicHandler) First(request models.IRequest) (result interface{}, err error) {
 	if base.DataHandler != nil {
-		req := request.GetBaseRequest()
-		req.Page = 1
-		req.PerPage = 1
-		pr, e := base.DataHandler.DoPaginate(req)
-		if e != nil {
-			err = e
-			return
-		}
-		arrValue := reflect.ValueOf(pr.Items)
-		if arrValue.Kind() == reflect.Ptr {
-			arrValue = arrValue.Elem()
-		}
-		if arrValue.Len() > 0 {
-			ind0 := arrValue.Index(0)
-			if ind0.Kind() != reflect.Ptr {
-				ind0 = ind0.Addr()
-			}
-			result = ind0.Interface()
-		}
+		result, err = base.DataHandler.DoGetFirst(request)
 		return
 	}
 	err = errors.New("data handler is not initialized")
