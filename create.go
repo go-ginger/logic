@@ -5,7 +5,7 @@ import (
 	"github.com/go-ginger/models"
 )
 
-func (base *BaseLogicHandler) DoCreate(request models.IRequest) (result interface{}, err error) {
+func (base *BaseLogicHandler) DoCreate(request models.IRequest) (result models.IBaseModel, err error) {
 	err = base.handleRequestFunction(base.IBaseLogicHandler.BeforeCreate, request)
 	if err != nil {
 		return
@@ -25,7 +25,7 @@ func (base *BaseLogicHandler) BeforeCreate(request models.IRequest) (err error) 
 	return
 }
 
-func (base *BaseLogicHandler) Create(request models.IRequest) (result interface{}, err error) {
+func (base *BaseLogicHandler) Create(request models.IRequest) (result models.IBaseModel, err error) {
 	if base.DataHandler != nil {
 		result, err = base.DataHandler.DoInsert(request)
 		return

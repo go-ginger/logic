@@ -14,14 +14,14 @@ func (base *BaseLogicHandler) DoPaginate(request models.IRequest) (result *model
 	if err != nil {
 		return
 	}
-	err = base.handleRequestParamFunction(base.IBaseLogicHandler.AfterQuery, request, result)
+	err = base.handleRequestModelFunction(base.IBaseLogicHandler.AfterQuery, request, result)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (base *BaseLogicHandler) DoGet(request models.IRequest) (result interface{}, err error) {
+func (base *BaseLogicHandler) DoGet(request models.IRequest) (result models.IBaseModel, err error) {
 	err = base.handleRequestFunction(base.IBaseLogicHandler.BeforeQuery, request)
 	if err != nil {
 		return
@@ -30,7 +30,7 @@ func (base *BaseLogicHandler) DoGet(request models.IRequest) (result interface{}
 	if err != nil {
 		return
 	}
-	err = base.handleRequestParamFunction(base.IBaseLogicHandler.AfterQuery, request, result)
+	err = base.handleRequestModelFunction(base.IBaseLogicHandler.AfterQuery, request, result)
 	if err != nil {
 		return
 	}
@@ -50,7 +50,7 @@ func (base *BaseLogicHandler) Paginate(request models.IRequest) (result *models.
 	return
 }
 
-func (base *BaseLogicHandler) Get(request models.IRequest) (result interface{}, err error) {
+func (base *BaseLogicHandler) Get(request models.IRequest) (result models.IBaseModel, err error) {
 	req := request.GetBaseRequest()
 	if req.ID != nil {
 		// handle id
@@ -68,7 +68,7 @@ func (base *BaseLogicHandler) Get(request models.IRequest) (result interface{}, 
 	return
 }
 
-func (base *BaseLogicHandler) First(request models.IRequest) (result interface{}, err error) {
+func (base *BaseLogicHandler) First(request models.IRequest) (result models.IBaseModel, err error) {
 	if base.DataHandler != nil {
 		result, err = base.DataHandler.DoGetFirst(request)
 		return
@@ -77,6 +77,6 @@ func (base *BaseLogicHandler) First(request models.IRequest) (result interface{}
 	return
 }
 
-func (base *BaseLogicHandler) AfterQuery(request models.IRequest, result interface{}) (err error) {
+func (base *BaseLogicHandler) AfterQuery(request models.IRequest, result models.IBaseModel) (err error) {
 	return
 }

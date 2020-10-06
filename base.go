@@ -9,22 +9,22 @@ type IBaseLogicHandler interface {
 	Init(logicHandler IBaseLogicHandler, dataHandler dl.IBaseDbHandler)
 	GetDataHandler() dl.IBaseDbHandler
 
-	DoCreate(request models.IRequest) (result interface{}, err error)
+	DoCreate(request models.IRequest) (result models.IBaseModel, err error)
 	DoPaginate(request models.IRequest) (result *models.PaginateResult, err error)
-	DoGet(request models.IRequest) (result interface{}, err error)
+	DoGet(request models.IRequest) (result models.IBaseModel, err error)
 	DoUpdate(request models.IRequest) (err error)
 	DoUpsert(request models.IRequest) (err error)
 	DoDelete(request models.IRequest) (err error)
 
 	BeforeCreate(request models.IRequest) (err error)
-	Create(request models.IRequest) (result interface{}, err error)
+	Create(request models.IRequest) (result models.IBaseModel, err error)
 	AfterCreate(request models.IRequest) (err error)
 
 	BeforeQuery(request models.IRequest) (err error)
 	Paginate(request models.IRequest) (result *models.PaginateResult, err error)
-	Get(request models.IRequest) (result interface{}, err error)
-	First(request models.IRequest) (result interface{}, err error)
-	AfterQuery(request models.IRequest, result interface{}) (err error)
+	Get(request models.IRequest) (result models.IBaseModel, err error)
+	First(request models.IRequest) (result models.IBaseModel, err error)
+	AfterQuery(request models.IRequest, result models.IBaseModel) (err error)
 
 	BeforeUpdate(request models.IRequest) (err error)
 	Update(request models.IRequest) (err error)
@@ -62,11 +62,11 @@ func (base *BaseLogicHandler) GetDataHandler() dl.IBaseDbHandler {
 	return base.DataHandler
 }
 
-func (base *BaseLogicHandler) handleRequestParamFunction(
-	function func(request models.IRequest, param interface{}) (err error),
-	request models.IRequest, param interface{}) (err error) {
+func (base *BaseLogicHandler) handleRequestModelFunction(
+	function func(request models.IRequest, model models.IBaseModel) (err error),
+	request models.IRequest, model models.IBaseModel) (err error) {
 	if function != nil {
-		err = function(request, param)
+		err = function(request, model)
 	}
 	return
 }
