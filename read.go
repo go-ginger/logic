@@ -77,6 +77,24 @@ func (base *BaseLogicHandler) First(request models.IRequest) (result models.IBas
 	return
 }
 
+func (base *BaseLogicHandler) Exists(request models.IRequest) (exists bool, err error) {
+	if base.DataHandler != nil {
+		exists, err = base.DataHandler.Exists(request)
+		return
+	}
+	err = errors.New("data handler is not initialized")
+	return
+}
+
+func (base *BaseLogicHandler) Count(request models.IRequest) (count uint64, err error) {
+	if base.DataHandler != nil {
+		count, err = base.DataHandler.Count(request)
+		return
+	}
+	err = errors.New("data handler is not initialized")
+	return
+}
+
 func (base *BaseLogicHandler) AfterQuery(request models.IRequest, result models.IBaseModel) (err error) {
 	return
 }
